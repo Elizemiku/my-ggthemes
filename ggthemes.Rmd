@@ -1,0 +1,128 @@
+---
+title: "ggthemes"
+author: "Elizabeth Borgognoni"
+date: "March 3, 2017"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+To run this tutorial, you'll need:
+
+```{r, eval=FALSE}
+install.packages(c('ggplot2', 'grid', 'gridExtra', 'ggthemes', 'dplyr'))
+```
+
+Loading useful packages
+- The `ggplot2` package is one of the best packages for the production of high-quality plots.
+```{r packages}
+library(ggplot2)
+library(grid)
+library(gridExtra)
+library(ggthemes)
+library(dplyr)
+```
+
+
+Create my theme
+```{r}
+my_theme<-function(base_size=14, base_family="Lucia") {
+library(grid)
+library(ggthemes)
+(theme_foundation(base_size= base_size, base_family=base_family)+ 
+theme(plot.margin=unit(c(5,5,10,5),"mm"),
+plot.background = element_rect(fill = "white", colour = "black", size = 1),
+plot.title = element_text(face = "bold", size = rel(1.2), hjust = 0.5),
+axis.title = element_text(face = "bold",size = rel(1)),
+axis.title.y = element_text(angle=90,vjust =2),
+axis.title.x = element_text(vjust = -0.2),
+axis.text = element_text(), 
+axis.line = element_line(colour="black"),
+axis.ticks = element_line(),
+panel.grid.major = element_line(colour="#f0f0f0"),
+panel.grid.minor = element_line(colour = "#f0f0f0"),
+legend.position = "bottom",
+legend.direction = "horizontal",
+legend.key.size= unit(0.2, "cm"),
+legend.spacing = unit(0, "cm"),
+legend.title = element_text(face="italic"),
+strip.background=element_rect(colour="#f0f0f0",fill="#f0f0f0"),
+strip.text = element_text(face="bold")
+))
+}
+
+scale_fill<-function(){
+ scale_fill_brewer(palette="Spectral")
+}  
+
+scale_colour<-function(){
+  scale_colour_brewer(palette="PRGn")
+}
+
+```
+
+
+Making barplots with differents themes
+```{r}
+Barplot<-ggplot(mtcars, aes(factor(carb),fill=factor(carb))) +
+  geom_bar(alpha=0.7) + 
+  ggtitle("Bar Plot") + 
+  my_theme()
+
+Barplot
+
+library(gridExtra)
+#scales
+grid.arrange(Barplot,(Barplot + scale_fill()))
+
+```
+
+Making scatter plots with differents themes
+```{r}
+library("dplyr")
+
+set.seed(1234)
+centers <- data.frame(cluster=factor(1:3), size=c(100, 150, 50), x1=c(5, 0, -3), x2=c(-1, 1, -2))
+points <- centers %>% group_by(cluster) %>%
+    do(data.frame(x1=rnorm(.$size[1], .$x1[1]),
+                  x2=rnorm(.$size[1], .$x2[1])))
+
+ggplot(points, aes(x1, x2, color=cluster)) + 
+  geom_point(size = 2) + 
+  ggtitle("Multivariate gaussian") + 
+  my_theme()
+```
+
+Making bubble plots with differents themes
+```{r}
+Bubble<-ggplot(mtcars, aes(mpg,disp,colour=factor(carb),size=hp)) + 
+  geom_point(alpha=0.7) + 
+  ggtitle("Bubble Plot") + 
+  scale_size_continuous(range = c(3,10)) + 
+  my_theme()
+
+Bubble
+
+library(gridExtra)
+
+#scales
+grid.arrange(Bubble,(Bubble + scale_colour()))
+
+```
+
+Making regression plots with differents themes 
+```{r}
+set.seed(1234)
+dat <- data.frame(cond = rep(c("A", "B"), each=50),
+                  xvar = 1:50 + rnorm(50,sd=3),
+                  yvar = 1:50 + rnorm(50,sd=3))
+
+ggplot(dat, aes(x=xvar, y=yvar)) +
+       geom_point(shape=1) +   
+       geom_smooth(method=lm) +
+       ggtitle("Linear Regression")+
+       my_theme()
+
+```
+
+
