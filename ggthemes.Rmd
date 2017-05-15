@@ -9,13 +9,13 @@ output:
 
 To run this tutorial, you'll need:
 
-```{r, eval=FALSE, message = FALSE}
+```{r, eval=FALSE}
 install.packages(c('ggplot2', 'grid', 'gridExtra', 'ggthemes', 'dplyr'))
 ```
 
 Loading useful packages
 - The `ggplot2` package is one of the best packages for the production of high-quality plots.
-```{r packages}
+```{r packages,  message = FALSE}
 library(ggplot2)
 library(grid)
 library(gridExtra)
