@@ -9,7 +9,7 @@ output:
 
 To run this tutorial, you'll need:
 
-```{r, eval=FALSE}
+```{r, eval=FALSE, message = FALSE}
 install.packages(c('ggplot2', 'grid', 'gridExtra', 'ggthemes', 'dplyr'))
 ```
 
