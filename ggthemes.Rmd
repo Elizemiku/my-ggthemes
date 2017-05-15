@@ -15,7 +15,7 @@ install.packages(c('ggplot2', 'grid', 'gridExtra', 'ggthemes', 'dplyr'))
 
 Loading useful packages
 - The `ggplot2` package is one of the best packages for the production of high-quality plots.
-```{r packages, warning = FALSE}
+```{r, warning = FALSE}
 library(ggplot2)
 library(grid)
 library(gridExtra)
